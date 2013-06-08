@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				font-size: 12px;
+				line-height: 12px;
+			}
+			.arrivals { 
+				width: 300px;
+				list-style: none;
+				margin: 10px 10px;
+				padding: 0px;
+				float: left;
+			
+			}
+		</style>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-pcRY1ddJccibC3RgxzvgTRIRG7Vwjk0&sensor=false"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script>
+			$(document).ready(function() {
+
+				(function($) {
+					$.fn.getAttributes = function() {
+						var attributes = {}; 
+
+						if( this.length ) {
+							$.each( this[0].attributes, function( index, attr ) {
+								attributes[ attr.name ] = attr.value;
+							}); 
+						}
+
+						return attributes;
+					};
+				})(jQuery);
+
+				function getGoogleMap(lat, lng) {
+					var coords = new google.maps.LatLng(lat, lng);
+					var mapOptions = {
+						zoom: 7,
+						center: coords,
+						mapTypeControl: true,
+						navigationControlOptions: {
+							style: google.maps.NavigationControlStyle.SMALL
+						},	
+						mapTypeId: google.maps.MapTypeId.ROADMAP
+					};
+					
+					var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+				}
+				
+				// can we query multiple locids??  then do this:
+				var locIDs = ['6849', '6850'];
+			/*	var startID = 6849;
+				for (var i = 0; i < 2; i++)  {
+					locIDs.push(startID++);
+				}
+
+				var locIDsString = locIDs.join(); */
+				//end
+				
+				$.ajax({
+					type: "GET",
+					url: 'http://developer.trimet.org/ws/V1/arrivals/locIDs/' + locIDs[0] + '/appID/5E48DCD7031297B7CBF2F37FD',
+					dataType: 'json',
+					success: function(xml) {
+						console.log(xml);
+
+
+						$(xml).find('arrival').each(function(){                
+							var tags = $(this).getAttributes();
+							var x = 0;
+							var lat = '';
+							var lng = '';
+							var uniqueIndex =  '';
+							$.each(tags, function(index, val) {
+								if (x === 0) {
+									$('#container').append('<ul class="arrivals"' + ' id="' + index + val + x + '"></ul>');
+								}
+								x++;
+								$('#container ul:last').append('<li>' + index + ': ' + val + '</li>');
+								
+								if (index === 'locid') { 
+									$('#container ul:last').prepend('<h2>Stop ID: ' + val + '</h2>'); 
+								}
+								
+								if (index === 'lat') { lat = val;}
+								if (index === 'lng') { lng = val;}
+							});
+							
+							$('#container ul:last').append('<canvas id="map-canvas' + uniqueIndex + '"></canvas>');
+
+						});
+					}
+				});
+				
+			});
+
+		</script>
+	</head>
+<body>
+	<div>
+		<div>
+		<h1>getTrimet.js</h1>
+			<div >
+				<h2>Arrivals</h2>
+				<div id="container"></div>
+		</div>
+	</div>
+	</div>
+
+</body>
+</html>
