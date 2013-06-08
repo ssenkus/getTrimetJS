@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 
 	// can we query multiple locids??  then do this:
-	var locIDs = ['6849'];
+	var locIDs = ['3639'];
 /*	var startID = 6849;
 	for (var i = 0; i < 2; i++)  {
 		locIDs.push(startID++);
@@ -43,7 +43,7 @@ $(document).ready(function() {
 						var uniqueIndex =  '';
 						$.each(tags, function(index, val) {
 							if (x === 0) {
-								$('#container').append('<div class="span3"><ul class="arrivals"' + ' id="' + index + val + x + '"></ul></div>');
+								$('#container').append('<div class="span4"><ul class="arrivals"' + ' id="' + index + val + x + '"></ul></div>');
 							}
 							x++;
 							$('#container ul:last').append('<li>' + index + ': ' + val + '</li>');
