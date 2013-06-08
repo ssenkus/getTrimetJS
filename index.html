@@ -1,11 +1,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<meta charset="UTF-8">
+		<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+				<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-pcRY1ddJccibC3RgxzvgTRIRG7Vwjk0&sensor=false"></script>
 		<style>
 		
 			body {
 				font-size: 12px;
 				line-height: 12px;
+				background-color: #dd8;
+				color: #666;
+			}
+			h1, h2, h3 {
+				font-size: 18px;
 			}
 			.arrivals { 
 				width: 300px;
@@ -15,106 +25,24 @@
 				float: left;
 			
 			}
+				#map-canvas { clear: both; height: 300px; width: 300px; float:left; }
 		</style>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-pcRY1ddJccibC3RgxzvgTRIRG7Vwjk0&sensor=false"></script>
-
-		<script type="text/javascript">
-			$(document).ready(function() {
-/*
-				(function($) {
-					$.fn.getAttributes = function() {
-						var attributes = {}; 
-
-						if( this.length ) {
-							$.each( this[0].attributes, function( index, attr ) {
-								attributes[ attr.name ] = attr.value;
-							}); 
-						}
-
-						return attributes;
-					};
-				})(jQuery);
-*/
-//				function getGoogleMap(lat, lng) {
-
-	//			}
-				
-				// can we query multiple locids??  then do this:
-				var locIDs = ['6850'];
-			/*	var startID = 6849;
-				for (var i = 0; i < 2; i++)  {
-					locIDs.push(startID++);
-				}
-
-				var locIDsString = locIDs.join(); */
-				//end
-				$.ajax({
-					type: "GET",
-					url: 'http://developer.trimet.org/ws/V1/arrivals/locIDs/' + locIDs[0] + '/appID/5E48DCD7031297B7CBF2F37FD',
-					dataType: 'xml',
-					success: function(xml) {
-						
-						var lat = $(xml).find('location').attr('lat');
-						var lng = $(xml).find('location').attr('lng');
 
 
-						$(xml).find('arrival').each(function(){                
-							var tags = $(this).getAttributes();
-							var x = 0;
-							var lat = '';
-							var lng = '';
-							var uniqueIndex =  '';
-							$.each(tags, function(index, val) {
-								if (x === 0) {
-									$('#container').append('<ul class="arrivals"' + ' id="' + index + val + x + '"></ul>');
-								}
-								x++;
-								$('#container ul:last').append('<li>' + index + ': ' + val + '</li>');
-								
-								if (index === 'locid') { 
-									$('#container ul:last').prepend('<h2>Stop ID: ' + val + '</h2>'); 
-								}
-								
-
-							});
-							
-
-
-						});
-
-						
-					}
-				});
-				var lat = '42.5';
-				var lng = '-122.6';
-						var coords = new google.maps.LatLng(lat, lng);
-						var mapOptions = {
-							zoom: 7,
-							center: coords,
-							mapTypeControl: true,
-							navigationControlOptions: {
-								style: google.maps.NavigationControlStyle.SMALL
-							},	
-							mapTypeId: google.maps.MapTypeId.ROADMAP
-						};
-					
-						var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-				
-			});
-
-		</script>
 	</head>
 	<body>
 		<div>
-			<div>
-				<h1>getTrimet.js</h1>
-				<div>
+			<div class="row-fluid">
+				<h1 id="title">getTrimetJS</h1>
+				<div class="span12">
 					<h2>Arrivals</h2>
-					<div id="container"></div>
+					<div id="container" class="span9"></div>
 				</div>
-				<canvas id="map-canvas"></canvas>
+				<div id="map-canvas" class="span3"></div>
 			</div>
 		</div>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="scripts/getTrimet.js"></script> 
+		<script type="text/javascript" src="scripts/makeMap.js"></script>
 	</body>
 </html>
