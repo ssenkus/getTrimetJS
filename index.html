@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<style>
+		
 			body {
 				font-size: 12px;
 				line-height: 12px;
@@ -15,11 +16,12 @@
 			
 			}
 		</style>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-pcRY1ddJccibC3RgxzvgTRIRG7Vwjk0&sensor=false"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-		<script>
-			$(document).ready(function() {
 
+		<script type="text/javascript">
+			$(document).ready(function() {
+/*
 				(function($) {
 					$.fn.getAttributes = function() {
 						var attributes = {}; 
@@ -33,24 +35,13 @@
 						return attributes;
 					};
 				})(jQuery);
+*/
+//				function getGoogleMap(lat, lng) {
 
-				function getGoogleMap(lat, lng) {
-					var coords = new google.maps.LatLng(lat, lng);
-					var mapOptions = {
-						zoom: 7,
-						center: coords,
-						mapTypeControl: true,
-						navigationControlOptions: {
-							style: google.maps.NavigationControlStyle.SMALL
-						},	
-						mapTypeId: google.maps.MapTypeId.ROADMAP
-					};
-					
-					var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-				}
+	//			}
 				
 				// can we query multiple locids??  then do this:
-				var locIDs = ['6849', '6850'];
+				var locIDs = ['6850'];
 			/*	var startID = 6849;
 				for (var i = 0; i < 2; i++)  {
 					locIDs.push(startID++);
@@ -58,13 +49,14 @@
 
 				var locIDsString = locIDs.join(); */
 				//end
-				
 				$.ajax({
 					type: "GET",
 					url: 'http://developer.trimet.org/ws/V1/arrivals/locIDs/' + locIDs[0] + '/appID/5E48DCD7031297B7CBF2F37FD',
-					dataType: 'json',
+					dataType: 'xml',
 					success: function(xml) {
-						console.log(xml);
+						
+						var lat = $(xml).find('location').attr('lat');
+						var lng = $(xml).find('location').attr('lng');
 
 
 						$(xml).find('arrival').each(function(){                
@@ -84,30 +76,45 @@
 									$('#container ul:last').prepend('<h2>Stop ID: ' + val + '</h2>'); 
 								}
 								
-								if (index === 'lat') { lat = val;}
-								if (index === 'lng') { lng = val;}
+
 							});
 							
-							$('#container ul:last').append('<canvas id="map-canvas' + uniqueIndex + '"></canvas>');
+
 
 						});
+
+						
 					}
 				});
+				var lat = '42.5';
+				var lng = '-122.6';
+						var coords = new google.maps.LatLng(lat, lng);
+						var mapOptions = {
+							zoom: 7,
+							center: coords,
+							mapTypeControl: true,
+							navigationControlOptions: {
+								style: google.maps.NavigationControlStyle.SMALL
+							},	
+							mapTypeId: google.maps.MapTypeId.ROADMAP
+						};
+					
+						var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 				
 			});
 
 		</script>
 	</head>
-<body>
-	<div>
+	<body>
 		<div>
-		<h1>getTrimet.js</h1>
-			<div >
-				<h2>Arrivals</h2>
-				<div id="container"></div>
+			<div>
+				<h1>getTrimet.js</h1>
+				<div>
+					<h2>Arrivals</h2>
+					<div id="container"></div>
+				</div>
+				<canvas id="map-canvas"></canvas>
+			</div>
 		</div>
-	</div>
-	</div>
-
-</body>
+	</body>
 </html>
