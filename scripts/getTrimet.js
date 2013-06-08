@@ -1,3 +1,4 @@
+$(document).ready(function() {
 	(function($) {
 		$.fn.getAttributes = function() {
 			var attributes = {}; 
@@ -11,11 +12,9 @@
 			return attributes;
 		};
 	})(jQuery);
-$(document).ready(function() {
-
 
 	// can we query multiple locids??  then do this:
-	var locIDs = ['3639'];
+	var locIDs = ['2580'];
 /*	var startID = 6849;
 	for (var i = 0; i < 2; i++)  {
 		locIDs.push(startID++);
