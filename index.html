@@ -10,10 +10,16 @@
 		
 			
 			
-			p {margin: 0; font-size: 12px;}
-h4  { margin: 0; }
-.span9, .span12 { margin-left: 0;}
-
+p {
+    margin: 0;
+    font-size: 12px;
+}
+h4 {
+    margin: 0;
+}
+.span9, .span12 {
+    margin-left: 0;
+}
 .span6 {
     padding: 0 0 0 10px;
     margin-left: 0;
@@ -22,10 +28,10 @@ h4  { margin: 0; }
     border-top: none;
     border-bottom: none;
     background-color: #ee0;
+    height: 40px;
 }
 .arrTitle {
-    width: inherit;    
-    
+    width: inherit;
 }
 .wrapper {
     width: 620px;
@@ -33,11 +39,9 @@ h4  { margin: 0; }
     height: auto;
     overflow: hidden;
     margin: 20px auto;
-     border: 2px solid #000;
+    border: 2px solid #000;
     border-radius: 12px;
-    
 }
-
 #title {
     width: 355px;
     float:left;
@@ -52,13 +56,11 @@ h4  { margin: 0; }
 }
 .row-fluid .span6 {
     width: 100%;
-
     padding-left: 12px;
-
 }
-
 #container {
     height: inherit;
+	clear: both;
 }
 .span12 h3 {
     background-color: #000;
@@ -69,7 +71,6 @@ h4  { margin: 0; }
     height:36px;
     border-top: 4px solid rgb(209, 68, 20);
 }
-
 #map-canvas {
     height: 150px;
     width: 245px;
@@ -90,7 +91,21 @@ ul.arrivals {
     width: 100%;
 }
 
-			
+#arrTitle {
+    width: 104px;
+    float: left;
+}
+#timeUpdated {
+    width: 300px;
+    float: left;
+    font-size: 10px;
+    height: 30px;
+    border-top: 4px solid rgb(209, 68, 20);
+    line-height: 30px;
+    padding-left: 10px;
+    font-weight: bold;
+	clear: right;
+}
 			
 			
 			
@@ -100,17 +115,18 @@ ul.arrivals {
 
 	</head>
 	<body>
-		<div class="wrapper">
-			<div class="row-fluid">
-				 <h1 id="title"><span class="tmGr" >get</span>Tri<img src="https://si0.twimg.com/profile_images/1752577471/trimet-logo-iphone_normal.png" />Met<span class="tmOr" >JS</span></h1>
+<div class="wrapper">
+    <div class="row-fluid">
+         <h1 id="title"><span class="tmGr" >get</span>Tri<img src="https://si0.twimg.com/profile_images/1752577471/trimet-logo-iphone_normal.png" />Met<span class="tmOr" >JS</span></h1>
 
-				<div id="map-canvas" class="span2"></div>
-			</div>
-			<div class="span12">
-				<h3 id="arrTitle">Arrivals</h3>
-				<div id="container" class="title"></div>
-			</div>
-		</div>
+        <div id="map-canvas" class="span2"></div>
+    </div>
+    <div class="span12">
+        <h3 id="arrTitle">Arrivals</h3><p id="timeUpdated"></p>
+
+        <div id="container" class="title"></div>
+    </div>
+</div>
 		<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="scripts/getTrimet.js"></script> 
 		<script type="text/javascript" src="scripts/makeMap.js"></script>
