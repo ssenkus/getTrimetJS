@@ -1,8 +1,10 @@
 $(document).ready(function () {
-    getArrivals();
-    var refreshArrivals = setInterval(function(){
-            getArrivals()
-        }, 3000); //60 * 1000);  // update every minute
+    getBusPos();
+
+
+    var refreshBusPosition = setInterval(function(){
+            getBusPos()
+        }, 60 * 1000);  // update every minute
     
     // just a quick and easy helper jQuery function 
     (function ($) {
@@ -22,7 +24,7 @@ $(document).ready(function () {
 
   
     
-    function getArrivals() {
+    function getBusPos() {
 		$('#container').empty();
         // can we query multiple locids??  then do this:
         var locIDs = ['2580'];
@@ -31,63 +33,24 @@ $(document).ready(function () {
 		
 		// !!!!!!!!!!!!!!!!!! THIS IS THE FIRST CHANGE !!!!!!!!!!!!!!!!! EDIT THE REST LATER !!!!!!!!
 		
-        var trimetURL = 'http://developer.trimet.org/beta/v2/vehicles?routers=56&appID=5E48DCD7031297B7CBF2F37FD';
-
-		
-		
+        var trimetURL = 'http://developer.trimet.org/beta/v2/vehicles?ids=2215&appID=5E48DCD7031297B7CBF2F37FD';
+	
 		
         $.ajax({
             type: "GET",
             url: trimetURL,
-            dataType: 'xml',
-            success: function (xml) {
-                var lat = $(xml).find('location').attr('lat');
-                var lng = $(xml).find('location').attr('lng');
-                //					makeGmap(lat, lng);
-                var queryTime = $(xml).find('resultSet').attr('queryTime');
-                var timeNow = new Date(parseInt(queryTime));
-                $('#timeUpdated').html(timeNow);
-                $(xml).find('arrival').each(function () {
-                    var tags = $(this).getAttributes();
-                    var x = 0;
-                    var lat = '';
-                    var lng = '';
-                    var uniqueIndex = '';
-                    $.each(tags, function (index, val) {
-                        if (x === 0) {
-                            $('#container').append('<div class="span6"><ul class="arrivals"' + ' id="' + index + val + x + '"></ul></div>');
-                        }
-                        x++;
-
-                        if (index === 'fullSign') {
-                            $('#container ul:last').prepend('<h4>' + val + '</h4>');
-                        }
-
-                        if (index === 'scheduled') {
-
-                            var dateString = new Date(parseInt(val * 1));
-                            var dater = new Date(parseInt(val));
-                            var hours = dater.getHours();
-                            // minutes part from the timestamp
-                            var minutes = dater.getMinutes();
-                            // seconds part from the timestamp
-                            var seconds = dater.getSeconds();
-
-                            // will display time in 10:30:23 format
-                            var formattedTime = hours + ':' + minutes + ':' + seconds;
-
-                            $('#container ul:last').append('<p>Scheduled at: <strong>' + formattedTime + '</strong></p>');
-                        }
-                    });
-                });
-                makeGmap(lat, lng);
-
-                $('.arrivals:even').parent().css('background-color', '#fff');
+            dataType: 'json',
+            success: function (json) {
+				console.log(json);
+                var lat = json.resultSet.vehicle[0].latitude;
+				var lng = json.resultSet.vehicle[0].longitude;
+                //var lng = $(json).find('resln').attr('lng');
+				console.log(lat + ", "+ lng);
+				makeGmap(lat, lng);
             }
         });
 
     }
-    //makeGmap('45.5234', '-122.7972');
 
     function makeGmap(lat, lng) {
         // -- Map --
