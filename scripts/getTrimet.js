@@ -1,8 +1,11 @@
 $(document).ready(function () {
+var lat, lng;
+var mapLoaded = false;
     getArrivals();
-    var refreshArrivals = setInterval(function(){
-            getArrivals()
-        }, 3000); //60 * 1000);  // update every minute
+	var refreshArrivals = setInterval(function() {
+		getArrivals();
+	
+	}, 1000); //60 * 1000);  // update every minute
     
     // just a quick and easy helper jQuery function 
     (function ($) {
@@ -21,22 +24,25 @@ $(document).ready(function () {
     })(jQuery);
 
   
-    
+	
     function getArrivals() {
-		$('#container').empty();
+		
         // can we query multiple locids??  then do this:
         var locIDs = ['2580'];
         var locIDsString = locIDs.join();
         //end
         var trimetURL = 'http://developer.trimet.org/ws/V1/arrivals/locIDs/' + locIDs[0] + '/appID/5E48DCD7031297B7CBF2F37FD';
-
+		
         $.ajax({
             type: "GET",
             url: trimetURL,
             dataType: 'xml',
             success: function (xml) {
-                var lat = $(xml).find('location').attr('lat');
-                var lng = $(xml).find('location').attr('lng');
+				$('#container').empty();
+                lat = $(xml).find('location').attr('lat');
+                lng = $(xml).find('location').attr('lng');
+				console.log('success lat:' + lat);
+				console.log('success lng:' + lng);
                 //					makeGmap(lat, lng);
                 var queryTime = $(xml).find('resultSet').attr('queryTime');
                 var timeNow = new Date(parseInt(queryTime));
@@ -44,11 +50,11 @@ $(document).ready(function () {
                 $(xml).find('arrival').each(function () {
                     var tags = $(this).getAttributes();
                     var x = 0;
-                    var lat = '';
-                    var lng = '';
+
                     var uniqueIndex = '';
                     $.each(tags, function (index, val) {
                         if (x === 0) {
+						
                             $('#container').append('<div class="span6"><ul class="arrivals"' + ' id="' + index + val + x + '"></ul></div>');
                         }
                         x++;
@@ -69,18 +75,39 @@ $(document).ready(function () {
 
                             // will display time in 10:30:23 format
                             var formattedTime = hours + ':' + minutes + ':' + seconds;
-
+				
                             $('#container ul:last').append('<p>Scheduled at: <strong>' + formattedTime + '</strong></p>');
                         }
                     });
+					
                 });
-                makeGmap(lat, lng);
 
                 $('.arrivals:even').parent().css('background-color', '#fff');
-            }
+            },
+			complete: function() {
+
+				(!mapLoaded) ? (function(){mapper(lat, lng); mapLoaded = true;}()) : '';
+				
+			
+			}
         });
 
     }
+
+	function mapper(lat, lng) {
+		var initLat = lat;
+		var initLng = lng;
+		var count = 0;
+		console.log(initLat);
+		return (function(lat, lng) {
+			if (count === 0) {
+				makeGmap(initLat, initLng);
+			
+			}
+			return count++;
+		}());
+	}
+	//makeGmap(lat, lng);
     //makeGmap('45.5234', '-122.7972');
 
     function makeGmap(lat, lng) {
