@@ -1,4 +1,6 @@
 var Location = Backbone.Model.extend({
+    
+    // default values can also be added for map-specific details
     defaults: {
         desc: "test desc",
         dir: "test direction",

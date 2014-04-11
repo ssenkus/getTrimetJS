@@ -4,4 +4,5 @@ var Arrival = Backbone.Model.extend({
         route: 99,
         fullSign: 'fullSign default'
     }
+    
 });
