@@ -5,7 +5,7 @@ var mapLoaded = false;
 	var refreshArrivals = setInterval(function() {
 		getArrivals();
 	
-	}, 1000); //60 * 1000);  // update every minute
+	}, 60 * 1000);  // update every minute
     
     // just a quick and easy helper jQuery function 
     (function ($) {
