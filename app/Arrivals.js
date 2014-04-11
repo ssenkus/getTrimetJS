@@ -6,6 +6,7 @@ var Arrivals = Backbone.Collection.extend({
     url: trimetUrl,
     parse: function(resp) {
         console.log(resp['resultSet']['arrival']);
+        console.log('response',resp)
         return resp['resultSet']['arrival'];
     }
 });

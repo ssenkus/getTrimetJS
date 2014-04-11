@@ -3,6 +3,11 @@ $(document).ready(function() {
 
     var Location = Backbone.Model.extend({
         defaults: {
+            desc: "test desc",
+            dir: "test direction",
+            lat: 45.5,
+            lng: -122.68,
+            locid: 3639
         }
 
     });
@@ -11,8 +16,8 @@ $(document).ready(function() {
     var MapView = Backbone.View.extend({
         createMap: function(coords) {
             console.log('createMap args', coords);
-            var lat = coords[0];
-            var lng = coords[1];
+            var lat = coords.get('lat');
+            var lng = coords.get('lng');
 
 // -- Map --
 // -- -- build Map --
@@ -46,7 +51,7 @@ $(document).ready(function() {
     });
 
 
-   var mapView = new MapView({ model: ['45','-122']})
+    var mapView = new MapView({model: new Location()})
 
     var arrivals = new Arrivals();
     arrivals.fetch().then(function() {
