@@ -1,58 +1,11 @@
 $(document).ready(function() {
 
-
-    var Location = Backbone.Model.extend({
-        defaults: {
-            desc: "test desc",
-            dir: "test direction",
-            lat: 45.5,
-            lng: -122.68,
-            locid: 3639
-        }
-
-    });
-
-
-    var MapView = Backbone.View.extend({
-        createMap: function(coords) {
-            console.log('createMap args', coords);
-            var lat = coords.get('lat');
-            var lng = coords.get('lng');
-
-// -- Map --
-// -- -- build Map --
-            var coords = new google.maps.LatLng(lat, lng);
-            var mapOptions = {
-                zoom: 16,
-                center: coords,
-                mapTypeControl: true,
-                navigationControlOptions: {
-                    style: google.maps.NavigationControlStyle.SMALL
-                },
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var map = new google.maps.Map(document.getElementById("map-canvas2"), mapOptions);
-
-            var marker = new google.maps.Marker({
-                position: coords,
-                title: "Trimet Stop!"
-            });
-            marker.setMap(map);
-            this.render();
-        },
-        initialize: function() {
-            this.createMap(this.model);
-        },
-        render: function() {
-
-
-        }
-
-    });
-
-
+// Get the true map coordinates from a central API request handler object
+// Placeholder using model defaults for now
     var mapView = new MapView({model: new Location()})
-
+    
+    // eventually Arrivals will be populated from central API request handler object
+    // for now, Arrivals handles all API response data
     var arrivals = new Arrivals();
     arrivals.fetch().then(function() {
         console.log(arrivals)
@@ -64,6 +17,9 @@ $(document).ready(function() {
 
     });
 
+
+    // refreshes arrivals every x seconds
+    // perhaps make this part of a greater App object
     setInterval(function() {
         arrivals.reset();
 
