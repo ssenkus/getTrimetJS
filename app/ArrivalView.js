@@ -1,3 +1,5 @@
+// Need to remove class info from here
+// this will be table data
 var ArrivalView = Backbone.View.extend({
     //tagName: 'li',
     template: _.template($('#arrivalTemplate').html()),
