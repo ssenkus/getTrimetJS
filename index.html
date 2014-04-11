@@ -66,7 +66,7 @@
                 height:36px;
                 border-top: 4px solid rgb(209, 68, 20);
             }
-            #map-canvas {
+            #map-canvas2 {
                 height: 150px;
                 width: 245px;
                 overflow:hidden;
@@ -114,29 +114,28 @@
             <div class="row-fluid">
                 <h1 id="title"><span class="tmGr" >get</span>Tri<img src="https://si0.twimg.com/profile_images/1752577471/trimet-logo-iphone_normal.png" />Met<span class="tmOr" >JS</span></h1>
 
-                <div id="map-canvas" class="span2"></div>
+                <div id="map-canvas2" class="span2"></div>
             </div>
             <div class="span12">
                 <h3 id="arrTitle">Arrivals</h3><p id="timeUpdated"></p>
 
                 <div id="container" class="title"></div>
             </div>
-            
-<script type="text/template" id="arrivalTemplate">
-    <div class="panel-heading"<h3><%= shortSign %></h3></div>
-    <div class="panel-body">
-    <ul>
-        
-        <li><%= fullSign %></li>
-        <li><%= estimated %></li>
-        </ul>
-        </div>
-</script>
+
+            <script type="text/template" id="arrivalTemplate">
+                <div class="panel-heading"<h3><%= shortSign %></h3></div>
+                <div class="panel-body">
+                    <ul>
+                        <li><%= fullSign %></li>
+                        <li><%= estimated %></li>
+                    </ul>
+                </div>
+            </script>
             <div class="container">
-            <ul id="arrivalsContainer"></ul>
+                <ul id="arrivalsContainer"></ul>
             </div>            
-            
-            
+            <div id="map-canvas2" class="span2"></div>
+
 
         </div>
 
@@ -147,6 +146,9 @@
 
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-pcRY1ddJccibC3RgxzvgTRIRG7Vwjk0&sensor=false"></script>
 
+        <script src="app/Arrival.js"></script>
+        <script src="app/Arrivals.js"></script>
+        <script src="app/ArrivalView.js"></script>
         <script src="app/app.js"></script>
 
         <script type="text/javascript" src="scripts/getTrimet.js"></script> 

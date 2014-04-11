@@ -1,49 +1,52 @@
-var trimetUrl = 'http://developer.trimet.org/ws/V1/arrivals/?appID=5E48DCD7031297B7CBF2F37FD&locIDs=2580&json=true';
-var Arrival = Backbone.Model.extend({
-    defaults: {
-        route: 99,
-        fullSign: 'fullSign default'
-    }
-});
-
-var Arrivals = Backbone.Collection.extend({
-    model: Arrival,
-    url: trimetUrl,
-    parse: function(resp) {
-        console.log(resp['resultSet']['arrival']);
-        return resp['resultSet']['arrival'];
-    }
-});
-
-var ArrivalView = Backbone.View.extend({
-    //tagName: 'li',
-    template: _.template($('#arrivalTemplate').html()),
-    initialize: function() {
-        this.render();
-    },
-    render: function() {
-        this.$el.html(this.template(this.model.toJSON())).hide();
-        this.$el.addClass('panel panel-primary').fadeIn(500);
-        return this;
-    }
-});
-
-
-
-/*
- $.ajax({
- url: trimetUrl
- }).done(function (data) {
- alert(1)
- console.log(data)
- });
- 
- 
- */
-
-
 $(document).ready(function() {
 
+
+    var Location = Backbone.Model.extend({
+        defaults: {
+        }
+
+    });
+
+
+    var MapView = Backbone.View.extend({
+        createMap: function(coords) {
+            console.log('createMap args', coords);
+            var lat = coords[0];
+            var lng = coords[1];
+
+// -- Map --
+// -- -- build Map --
+            var coords = new google.maps.LatLng(lat, lng);
+            var mapOptions = {
+                zoom: 16,
+                center: coords,
+                mapTypeControl: true,
+                navigationControlOptions: {
+                    style: google.maps.NavigationControlStyle.SMALL
+                },
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas2"), mapOptions);
+
+            var marker = new google.maps.Marker({
+                position: coords,
+                title: "Trimet Stop!"
+            });
+            marker.setMap(map);
+            this.render();
+        },
+        initialize: function() {
+            this.createMap(this.model);
+        },
+        render: function() {
+
+
+        }
+
+    });
+
+
+   var mapView = new MapView({ model: ['45','-122']})
 
     var arrivals = new Arrivals();
     arrivals.fetch().then(function() {
@@ -70,7 +73,10 @@ $(document).ready(function() {
 
         });
 
-    }, 10000)
+    }, 10000);
+
+
+
 
 
 
