@@ -20,12 +20,15 @@ $(document).ready(function() {
 
     // refreshes arrivals every x seconds
     // perhaps make this part of a greater App object
-    setInterval(function() {
+    var timer = setInterval(function() {
+        // remove all models
         arrivals.reset();
-
+        // get all the models
         arrivals.fetch().then(function() {
+            // empty the arrivals container...
             $('#arrivalsContainer').empty();
             console.log(arrivals)
+            // ...then fill it up again!
             arrivals.each(function(arr) {
                 console.log('arrival', arr)
                 var arrView = new ArrivalView({model: arr})
@@ -34,7 +37,7 @@ $(document).ready(function() {
 
         });
 
-    }, 10000);
+    }, 10000); // refresh every 10 seconds
 
 
 

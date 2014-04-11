@@ -8,6 +8,7 @@ var ArrivalView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON())).hide();
+        // a quick hack to get the classes to show up, this can be removed during conversion
         this.$el.addClass('panel panel-primary').fadeIn(500);
         return this;
     }

@@ -13,4 +13,5 @@ var Arrivals = Backbone.Collection.extend({
         console.log('response',resp)
         return resp['resultSet']['arrival'];
     }
+    // validation could also help here
 });
