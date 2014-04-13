@@ -1,7 +1,7 @@
 // Need to remove class info from here
 // this will be table data
 var ArrivalView = Backbone.View.extend({
-    //tagName: 'li',
+    tagName: 'tr',
     template: _.template($('#arrivalTemplate').html()),
     initialize: function() {
         this.render();
@@ -9,7 +9,7 @@ var ArrivalView = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template(this.model.toJSON())).hide();
         // a quick hack to get the classes to show up, this can be removed during conversion
-        this.$el.addClass('panel panel-primary').fadeIn(500);
+        this.$el.fadeIn(200);
         return this;
     }
 });

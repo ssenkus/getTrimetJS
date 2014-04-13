@@ -7,6 +7,9 @@ var Location = Backbone.Model.extend({
         lat: 45.5,
         lng: -122.68,
         locid: 3639
+    },
+    parse: function(resp) {
+        console.log('Location resp', resp)
     }
 
 });
