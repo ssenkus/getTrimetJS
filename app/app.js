@@ -5,6 +5,8 @@ $(document).ready(function() {
     APP.resultSet = new ResultSet();
     APP.resultSet.fetch().then(function() {
         console.log('app', APP);
+        APP.mapView = new MapView({model: APP.location});
+
         APP.arrivals.each(function(arr) {
             console.log('arrival', arr);
             var arrView = new ArrivalView({model: arr});
@@ -12,7 +14,7 @@ $(document).ready(function() {
         });
 
     });
-    
+
     APP.timer = setInterval(function() {
         // remove all models
         APP.arrivals.reset();
@@ -27,6 +29,5 @@ $(document).ready(function() {
             });
 
         });
-
-    }, 2000); // refresh every 10 seconds
+    }, 10000); // refresh every 10 seconds
 });
