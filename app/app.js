@@ -17,7 +17,7 @@ $(document).ready(function() {
         // remove all models
         APP.arrivals.reset();
         // get all the models
-        APP.arrivals.fetch().then(function() {
+        APP.resultSet.fetch().then(function() {
             // empty the arrivals container...
             $('#arrivalsContainer').empty();
             // ...then fill it up again!
@@ -28,5 +28,5 @@ $(document).ready(function() {
 
         });
 
-    }, 10000); // refresh every 10 seconds
+    }, 2000); // refresh every 10 seconds
 });
