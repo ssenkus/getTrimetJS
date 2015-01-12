@@ -5,6 +5,5 @@ var ResultSet = Backbone.Model.extend({
         APP.location = new Location(resp['resultSet']['location'][0]);        
         APP.arrivals = new Arrivals(resp['resultSet']['arrival'], {parse: true});
         return resp['resultSet'];
-        
     }
 });

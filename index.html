@@ -10,9 +10,22 @@
     <body>
 
         <!-- Underscore Templates -->
+        <script type="text/template" id="headerTemplate">
+            <div class="row" style="margin: 10px 20px;">
+                <div class="col-md-6">
+                    <h1 style="margin-top: 0px;">Stop ID #<%= stopId %> </h1>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" placeholder="Enter Your Trimet Stop ID">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" id="submitStopId" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </script>
 
-
-        <!--Convert this to a table row-->
         <script type="text/template" id="arrivalTemplate">
             <td><%= shortSign %></td>
             <td><%= fullSign %></td>
@@ -84,7 +97,8 @@
                 </div>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     <!-- fill this in with Location model -->
-                    <h1 class="page-header">Stop ID #???</h1>
+                    <div id="header"></div>
+                    <!--<h1 class="page-header">Stop ID #<span></span></h1>-->
                     <div class="row placeholders">
                         <div class="col-md-5 col-sm-3">
                             <!-- Backbone View - Map -->
@@ -109,8 +123,6 @@
                 </div>
             </div>
 
-
-
             <!-- Backbone dependencies -->
             <script src="lib/jquery-2.0.2.min.js"></script>
             <script src="lib/underscore-min.js"></script>
@@ -126,12 +138,10 @@
             <script src="app/ArrivalView.js"></script>
             <script src="app/Location.js"></script>
             <script src="app/MapView.js"></script>
+            <script src="app/HeaderView.js"></script>
             <script src="app/ResultSet.js"></script>
+            <script src="app/BusStop.js"></script>
             <script src="app/app.js"></script>
-
-
-          
-            
         </div>
     </body>
 </html>
