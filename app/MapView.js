@@ -1,9 +1,20 @@
 var MapView = Backbone.View.extend({
-    createMap: function(coords) {
+    initialize: function (options) {
+        console.log('options', options);
+
+        // this.listenTo(this.model, 'change', this.render);
+        // this will eventually use the Location model to fill in lat/lng and other Gmap data
+        this.render()
+    },
+    updateLocation: function () {
+        this.createMap();
+    },
+    createMap: function () {
         // not too fancy yet
+        var coords = this.model.get('location')[0];
         console.log('createMap args', coords);
-        var lat = coords.get('lat');
-        var lng = coords.get('lng');
+        var lat = coords.lat
+        var lng = coords.lng;
 
         var coords = new google.maps.LatLng(lat, lng);
         // these options can be set in a model
@@ -25,15 +36,10 @@ var MapView = Backbone.View.extend({
             title: "Trimet Stop!"
         });
         marker.setMap(map);
-        this.render();
     },
-    initialize: function() {
-        // this will eventually use the Location model to fill in lat/lng and other Gmap data
-        this.createMap(this.model);
-    },
-    render: function() {
+    render: function () {
         // perhaps move some code from this.createMap into here???
-
+        this.createMap(this.model.get('location')[0]);
     }
 
 });

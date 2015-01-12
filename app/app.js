@@ -1,35 +1,39 @@
 var APP = {};
 $(document).ready(function () {
-    APP.busStop = new BusStop({ stopId: 8765})
+    var currentId = 2580;
+    
+    APP.busStop = new BusStop({stopId: currentId});
     APP.header = new HeaderView({model: APP.busStop});
-    $('#header').append(APP.header.$el)
-// The main result set controller
-    APP.resultSet = new ResultSet();
-    APP.resultSet.fetch().then(function () {
-        console.log('app', APP);
-        APP.mapView = new MapView({model: APP.location});
 
-        APP.arrivals.each(function (arr) {
-            console.log('arrival', arr);
+// The main result set controller
+    APP.busStop.fetch().then(function () {
+        APP.mapView = new MapView({model: APP.busStop});
+        console.log('arrivals', APP.busStop.get('arrival'))
+        APP.busStop.get('arrival').forEach(function (arr) {
             var arrView = new ArrivalView({model: arr});
             arrView.$el.appendTo('#arrivalsContainer');
         });
-
     });
-
+    
     APP.timer = setInterval(function () {
         // remove all models
         APP.arrivals.reset();
         // get all the models
-        APP.resultSet.fetch().then(function () {
+        APP.busStop.fetch().then(function () {
             // empty the arrivals container...
             $('#arrivalsContainer').empty();
             // ...then fill it up again!
-            APP.arrivals.each(function (arr) {
+            
+            if (currentId !== APP.busStop.get('stopId')) {
+                APP.mapView.updateLocation();
+                currentId = APP.busStop.get('stopId');
+            }
+            
+            APP.busStop.get('arrival').forEach(function (arr) {
                 var arrView = new ArrivalView({model: arr});
                 arrView.$el.appendTo('#arrivalsContainer');
             });
 
         });
-    }, 10000); // refresh every 10 seconds
+    }, 3000); // refresh every 10 seconds
 });
